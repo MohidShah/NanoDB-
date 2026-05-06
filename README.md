@@ -4,7 +4,7 @@ A from-scratch relational database engine written in C++ (no STL containers).
 Built for the graduate-level *Applied Programming* course.
 
 ## GitHub Repository
-> **Link:** *(add your repo URL here after `git remote add origin <url>`)*
+> **Link:** [https://github.com/MohidShah/NanoDB-](https://github.com/MohidShah/NanoDB-)
 
 ---
 
