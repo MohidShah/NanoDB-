@@ -1,0 +1,35 @@
+# ── Compiled binaries ──────────────────────────────────────────────────────────
+*.exe
+*.out
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+
+# ── Build directories ──────────────────────────────────────────────────────────
+build/
+cmake-build-debug/
+cmake-build-release/
+CMakeFiles/
+CMakeCache.txt
+*.cmake
+Makefile.win
+
+# ── TPC-H raw data (large files — do NOT push to GitHub) ──────────────────────
+data/*.tbl
+data/*.csv
+
+# ── NanoDB runtime files ───────────────────────────────────────────────────────
+*.dbf          # serialized page files
+nanodb_execution.log
+
+# ── Editor / OS noise ─────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.suo
+*.user
+.DS_Store
+Thumbs.db
