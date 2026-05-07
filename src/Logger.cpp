@@ -8,7 +8,10 @@
  *   No smart pointers or RAII wrappers — we own the resource explicitly.
  */
 #include "Logger.h"
-#include <string.h>  // C header (avoids Clangd false positives on MinGW)  // strlen
+#include <stdio.h>   // FILE*, fprintf, vfprintf, fopen, fclose, fflush
+#include <stdarg.h>  // va_list, va_start, va_end
+#include <time.h>    // time_t, time(), localtime()
+#include <string.h>  // strlen
 
 // ── Static member definition ──────────────────────────────────────────────────
 // Exactly one translation unit must define this; all others just declare it.
