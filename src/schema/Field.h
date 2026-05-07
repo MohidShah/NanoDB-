@@ -41,11 +41,7 @@
 
 #include <cstring>   // strcmp, strncpy, strlen
 #include <cstdio>    // printf, sprintf
-
-// ── Fixed serialization widths ─────────────────────────────────────────────────
-static const int INT_FIELD_WIDTH    = 4;
-static const int FLOAT_FIELD_WIDTH  = 8;
-static const int STRING_FIELD_WIDTH = 256;
+#include "../Constants.h"  // INT_FIELD_WIDTH, FLOAT_FIELD_WIDTH, STRING_FIELD_WIDTH
 
 // ── Abstract base ──────────────────────────────────────────────────────────────
 class Field {

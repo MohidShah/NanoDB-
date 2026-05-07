@@ -36,10 +36,7 @@
 
 #include <cstring>  // memset, memcpy
 #include <cstdio>   // fprintf (for debug)
-
-// ── Compile-time page constants ────────────────────────────────────────────────
-static const int PAGE_SIZE       = 4096;  // bytes per page
-static const int PAGE_HEADER_SZ  = 8;     // bytes reserved for page header
+#include "../Constants.h"  // PAGE_SIZE, PAGE_HEADER_SZ and all shared constants
 
 class Page {
 public:

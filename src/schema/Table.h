@@ -30,8 +30,8 @@
 #include "Row.h"
 #include "../memory/BufferPool.h"
 #include "../Logger.h"
-
-static const int MAX_TABLE_PAGES = 4096;  // max pages per table
+// MAX_TABLE_PAGES, PAGE_SIZE, PAGE_HEADER_SZ come from Constants.h
+// (transitively included via BufferPool.h -> Page.h -> Constants.h)
 
 // Function pointer type for row filters (used by scan).
 // Returns true if the row should be included in results.

@@ -17,12 +17,9 @@
 #define SCHEMA_H
 
 #include "Field.h"
+#include "../Constants.h"  // PAGE_SIZE, PAGE_HEADER_SZ, MAX_COLS, MAX_TABLE_NAME, MAX_COL_NAME
 #include <cstring>
 #include <cstdio>
-
-static const int MAX_COLS       = 32;   // max columns per table
-static const int MAX_TABLE_NAME = 64;
-static const int MAX_COL_NAME   = 64;
 
 struct ColumnDef {
     char       name[MAX_COL_NAME];
