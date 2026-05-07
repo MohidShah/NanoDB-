@@ -18,8 +18,8 @@
 
 #include "Field.h"
 #include "../Constants.h"  // PAGE_SIZE, PAGE_HEADER_SZ, MAX_COLS, MAX_TABLE_NAME, MAX_COL_NAME
-#include <cstring>
-#include <cstdio>
+#include <string.h>  // C header (avoids Clangd false positives on MinGW)
+#include <stdio.h>   // C header
 
 struct ColumnDef {
     char       name[MAX_COL_NAME];
@@ -33,14 +33,14 @@ public:
     int       numCols;
 
     Schema() : numCols(0) {
-        std::memset(tableName, 0, sizeof(tableName));
-        std::memset(columns,   0, sizeof(columns));
+        memset(tableName, 0, sizeof(tableName));
+        memset(columns,   0, sizeof(columns));
     }
 
     /** Add a column definition. Returns false if MAX_COLS exceeded. */
     bool addColumn(const char* name, Field::Type type) {
         if (numCols >= MAX_COLS) return false;
-        std::strncpy(columns[numCols].name, name, MAX_COL_NAME - 1);
+        strncpy(columns[numCols].name, name, MAX_COL_NAME - 1);
         columns[numCols].type = type;
         numCols++;
         return true;
@@ -49,7 +49,7 @@ public:
     /** Find a column index by name. Returns -1 if not found. */
     int indexOf(const char* name) const {
         for (int i = 0; i < numCols; i++) {
-            if (std::strcmp(columns[i].name, name) == 0) return i;
+            if (strcmp(columns[i].name, name) == 0) return i;
         }
         return -1;
     }

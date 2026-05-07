@@ -39,8 +39,8 @@
 #ifndef FIELD_H
 #define FIELD_H
 
-#include <cstring>   // strcmp, strncpy, strlen
-#include <cstdio>    // printf, sprintf
+#include <string.h>  // C header (avoids Clangd false positives on MinGW)   // strcmp, strncpy, strlen
+#include <stdio.h>   // C header    // printf, sprintf
 #include "../Constants.h"  // INT_FIELD_WIDTH, FLOAT_FIELD_WIDTH, STRING_FIELD_WIDTH
 
 // ── Abstract base ──────────────────────────────────────────────────────────────
@@ -96,8 +96,8 @@ public:
     bool operator<(const Field& o)  const override { return val <  static_cast<const IntField&>(o).val; }
     bool operator==(const Field& o) const override { return val == static_cast<const IntField&>(o).val; }
 
-    void serialize(char* buf)         const override { std::memcpy(buf, &val, sizeof(int)); }
-    void deserialize(const char* buf)       override { std::memcpy(&val, buf, sizeof(int)); }
+    void serialize(char* buf)         const override { memcpy(buf, &val, sizeof(int)); }
+    void deserialize(const char* buf)       override { memcpy(&val, buf, sizeof(int)); }
     int  serializedWidth()            const override { return INT_FIELD_WIDTH; }
 
     Field* clone()  const override { return new IntField(val); }
@@ -122,8 +122,8 @@ public:
     bool operator<(const Field& o)  const override { return val <  static_cast<const FloatField&>(o).val; }
     bool operator==(const Field& o) const override { return val == static_cast<const FloatField&>(o).val; }
 
-    void serialize(char* buf)         const override { std::memcpy(buf, &val, sizeof(double)); }
-    void deserialize(const char* buf)       override { std::memcpy(&val, buf, sizeof(double)); }
+    void serialize(char* buf)         const override { memcpy(buf, &val, sizeof(double)); }
+    void deserialize(const char* buf)       override { memcpy(&val, buf, sizeof(double)); }
     int  serializedWidth()            const override { return FLOAT_FIELD_WIDTH; }
 
     Field* clone()  const override { return new FloatField(val); }
@@ -139,27 +139,27 @@ class StringField : public Field {
 public:
     char val[STRING_FIELD_WIDTH];  // fixed-width null-padded buffer
 
-    StringField()  { std::memset(val, 0, STRING_FIELD_WIDTH); }
+    StringField()  { memset(val, 0, STRING_FIELD_WIDTH); }
     explicit StringField(const char* s) {
-        std::memset(val, 0, STRING_FIELD_WIDTH);
-        std::strncpy(val, s, STRING_FIELD_WIDTH - 1);
+        memset(val, 0, STRING_FIELD_WIDTH);
+        strncpy(val, s, STRING_FIELD_WIDTH - 1);
     }
 
     Type getType() const override { return STRING; }
 
     // strcmp returns 0 for equal, <0 for less-than, >0 for greater-than.
-    bool operator>(const Field& o)  const override { return std::strcmp(val, static_cast<const StringField&>(o).val) >  0; }
-    bool operator<(const Field& o)  const override { return std::strcmp(val, static_cast<const StringField&>(o).val) <  0; }
-    bool operator==(const Field& o) const override { return std::strcmp(val, static_cast<const StringField&>(o).val) == 0; }
+    bool operator>(const Field& o)  const override { return strcmp(val, static_cast<const StringField&>(o).val) >  0; }
+    bool operator<(const Field& o)  const override { return strcmp(val, static_cast<const StringField&>(o).val) <  0; }
+    bool operator==(const Field& o) const override { return strcmp(val, static_cast<const StringField&>(o).val) == 0; }
 
-    void serialize(char* buf)         const override { std::memcpy(buf, val, STRING_FIELD_WIDTH); }
-    void deserialize(const char* buf)       override { std::memcpy(val, buf, STRING_FIELD_WIDTH); }
+    void serialize(char* buf)         const override { memcpy(buf, val, STRING_FIELD_WIDTH); }
+    void deserialize(const char* buf)       override { memcpy(val, buf, STRING_FIELD_WIDTH); }
     int  serializedWidth()            const override { return STRING_FIELD_WIDTH; }
 
     Field* clone()  const override { return new StringField(val); }
     void   print()  const override { printf("%s", val); }
     double toDouble() const override { return 0.0; }  // strings don't convert to numeric
-    void   toString(char* out, int maxLen) const override { std::strncpy(out, val, maxLen - 1); out[maxLen-1] = '\0'; }
+    void   toString(char* out, int maxLen) const override { strncpy(out, val, maxLen - 1); out[maxLen-1] = '\0'; }
 };
 
 #endif // FIELD_H

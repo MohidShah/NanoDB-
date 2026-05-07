@@ -14,7 +14,7 @@
  * or joins where the same page might be accessed multiple times.
  */
 #include "BufferPool.h"
-#include <cstring>  // strncpy
+#include <string.h>  // C header (avoids Clangd false positives on MinGW)  // strncpy
 
 // ── Constructor ───────────────────────────────────────────────────────────────
 BufferPool::BufferPool(int maxPages, const char* path)

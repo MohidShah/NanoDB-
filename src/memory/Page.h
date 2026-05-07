@@ -34,8 +34,8 @@
 #ifndef PAGE_H
 #define PAGE_H
 
-#include <cstring>  // memset, memcpy
-#include <cstdio>   // fprintf (for debug)
+#include <string.h>  // C header (avoids Clangd false positives on MinGW)  // memset, memcpy
+#include <stdio.h>   // C header   // fprintf (for debug)
 #include "../Constants.h"  // PAGE_SIZE, PAGE_HEADER_SZ and all shared constants
 
 class Page {

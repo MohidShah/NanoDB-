@@ -22,9 +22,9 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include <cstdio>   // FILE*, fprintf, vfprintf, fflush, fopen, fclose
-#include <cstdarg>  // va_list, va_start, va_end
-#include <ctime>    // time_t, localtime, time
+#include <stdio.h>   // C header   // FILE*, fprintf, vfprintf, fflush, fopen, fclose
+#include <stdarg.h>  // C header  // va_list, va_start, va_end
+#include <time.h>    // C header    // time_t, localtime, time
 
 class Logger {
 private:

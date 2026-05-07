@@ -10,7 +10,7 @@
  *   memset(ptr, val, n) fills n bytes starting at ptr with val
  */
 #include "Page.h"
-#include <cstring>  // memset, memcpy
+#include <string.h>  // C header (avoids Clangd false positives on MinGW)  // memset, memcpy
 
 // ── Constructor ───────────────────────────────────────────────────────────────
 Page::Page(int id) : pageId(id), isDirty(false), pinCount(0) {
@@ -38,7 +38,7 @@ bool Page::write(const char* src, int offset, int size) {
         return false;
     }
     // data + offset → raw address of destination byte within this page
-    std::memcpy(data + offset, src, static_cast<size_t>(size));
+    memcpy(data + offset, src, static_cast<size_t>(size));
     isDirty = true;  // mark modified — Buffer Pool will flush on eviction
     return true;
 }
@@ -47,14 +47,14 @@ bool Page::read(char* dst, int offset, int size) const {
     if (offset < 0 || size <= 0 || (offset + size) > PAGE_SIZE) {
         return false;
     }
-    std::memcpy(dst, data + offset, static_cast<size_t>(size));
+    memcpy(dst, data + offset, static_cast<size_t>(size));
     return true;
 }
 
 void Page::clear() {
     // Fill every byte with 0x00.
     // sizeof(char) == 1, so PAGE_SIZE bytes is exactly the block size.
-    std::memset(data, 0, PAGE_SIZE);
+    memset(data, 0, PAGE_SIZE);
     isDirty = false;
 }
 
@@ -63,23 +63,23 @@ void Page::clear() {
 void Page::writeHeader() {
     // Store pageId as 4 raw bytes at offset 0.
     // reinterpret_cast is necessary to treat the int's bytes as chars.
-    std::memcpy(data + 0, &pageId, sizeof(int));
+    memcpy(data + 0, &pageId, sizeof(int));
 }
 
 int Page::readHeaderId() const {
     int id = 0;
-    std::memcpy(&id, data + 0, sizeof(int));
+    memcpy(&id, data + 0, sizeof(int));
     return id;
 }
 
 void Page::setRowCount(int count) {
     // Store row count as 4 raw bytes at offset 4 (after the page ID).
-    std::memcpy(data + sizeof(int), &count, sizeof(int));
+    memcpy(data + sizeof(int), &count, sizeof(int));
     isDirty = true;
 }
 
 int Page::getRowCount() const {
     int count = 0;
-    std::memcpy(&count, data + sizeof(int), sizeof(int));
+    memcpy(&count, data + sizeof(int), sizeof(int));
     return count;
 }

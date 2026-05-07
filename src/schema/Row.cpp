@@ -13,8 +13,8 @@
  *   their destructors.  clone() ensures each Row owns its own Field objects.
  */
 #include "Row.h"
-#include <cstring>  // memcpy
-#include <cstdio>   // printf
+#include <string.h>  // C header (avoids Clangd false positives on MinGW)  // memcpy
+#include <stdio.h>   // C header   // printf
 
 // ── allocFields ───────────────────────────────────────────────────────────────
 void Row::allocFields(const Schema* schema) {

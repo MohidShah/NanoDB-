@@ -16,8 +16,8 @@
  *   evictLRU() → dllRemove() O(1) + htRemove() O(1) + writeToDisk O(1) = O(1)
  */
 #include "LRUCache.h"
-#include <cstdlib> // NULL
-#include <cstring> // memset, strcpy
+#include <stdlib.h>  // C header // NULL
+#include <string.h>  // C header (avoids Clangd false positives on MinGW) // memset, strcpy
 
 // ── Constructor
 // ───────────────────────────────────────────────────────────────

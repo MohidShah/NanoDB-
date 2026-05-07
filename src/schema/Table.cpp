@@ -14,27 +14,27 @@
  *   This is intentionally plain text so it's human-readable during debugging.
  */
 #include "Table.h"
-#include <cstring>
-#include <cstdio>
-#include <cstdlib>  // atoi
+#include <string.h>  // C header (avoids Clangd false positives on MinGW)
+#include <stdio.h>   // C header
+#include <stdlib.h>  // C header  // atoi
 
 // ── Constructor ───────────────────────────────────────────────────────────────
 Table::Table(Schema* sch, BufferPool* bp, const char* df)
     : schema(sch), pool(bp), numPages(0), totalRows(0)
 {
-    std::strncpy(dataFile, df, 255);
+    strncpy(dataFile, df, 255);
     dataFile[255] = '\0';
 
     // Derive meta file name: replace .dbf with .meta
-    std::strncpy(metaFile, df, 250);
+    strncpy(metaFile, df, 250);
     metaFile[250] = '\0';
     // Find last '.' and replace suffix
     char* dot = nullptr;
     for (char* p = metaFile; *p; p++) if (*p == '.') dot = p;
-    if (dot) std::strcpy(dot, ".meta");
-    else     std::strcat(metaFile, ".meta");
+    if (dot) strcpy(dot, ".meta");
+    else     strcat(metaFile, ".meta");
 
-    std::memset(pageDirectory, -1, sizeof(pageDirectory));
+    memset(pageDirectory, -1, sizeof(pageDirectory));
 
     Logger::log("Table [%s] initialized. dataFile=%s", schema->tableName, dataFile);
 }
