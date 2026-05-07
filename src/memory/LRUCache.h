@@ -34,7 +34,9 @@
 
 #include "Page.h"
 #include "../Logger.h"
-#include <stdio.h>   // C header   // fprintf for disk I/O (fopen, fread, fwrite)
+#include <stdio.h>   // C header - FILE*
+#include <string.h>  // C header - strncpy, memset
+#include <stdlib.h>  // C header - NULL, exit
 
 // ── Doubly Linked List node ───────────────────────────────────────────────────
 struct PageNode {
