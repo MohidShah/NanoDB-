@@ -9,9 +9,6 @@
  *
  * Design: a plain C-style struct array (ColumnDef[]) — no STL containers.
  *
- * Viva Q: "How does the engine know the byte offset of column 3 in a row?"
- *   Schema::offsetOf(colIndex) walks columns 0..colIndex-1, summing their
- *   serializedWidth().  This is O(numCols) but numCols is tiny (≤ 20).
  */
 #ifndef SCHEMA_H
 #define SCHEMA_H

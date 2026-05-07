@@ -27,10 +27,6 @@
  *   The destructor calls save() then deletes all Table objects.
  *   BufferPool is NOT owned by the catalog; it is shared.
  *
- * Viva Q: "How does the parser resolve 'SELECT * FROM orders'?"
- *   The executor calls SystemCatalog::getTable("orders"), which does an
- *   O(1) HashMap lookup and returns the Table* (or nullptr if not found,
- *   triggering an error message).
  */
 #ifndef SYSTEM_CATALOG_H
 #define SYSTEM_CATALOG_H

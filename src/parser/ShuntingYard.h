@@ -6,17 +6,7 @@
  * Input:  flat Token array from Tokenizer (infix order).
  * Output: Token array in Reverse Polish Notation (postfix).
  *
- * Viva Q: "Why convert to postfix before evaluation?"
- *   Postfix eliminates the need for parentheses and precedence checks during
- *   evaluation — a simple stack-based evaluator can process it left-to-right
- *   in a single pass in O(N).  Evaluating infix directly requires recursive
- *   descent or tracking precedence at eval time, which is more complex.
  *
- * Viva Q: "What is operator associativity and why does it matter?"
- *   Left-associative: a-b-c means (a-b)-c. For equal-precedence operators,
- *   the stack is drained before pushing the new operator.
- *   Right-associative: NOT NOT x means NOT(NOT(x)). The stack is NOT drained
- *   for equal-precedence — the new operator stacks on top.
  *
  * Operator precedence table (higher = binds tighter):
  *   OR:                   1  (left)

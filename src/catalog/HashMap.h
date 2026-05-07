@@ -27,17 +27,7 @@
  *   The key string is deep-copied (strncpy into a fixed char[128] buffer).
  *   The caller owns the value pointer — HashMap never deletes it.
  *
- * Viva Q: "Why FNV-1a over djb2 or std::hash?"
- *   FNV-1a mixes each byte into the hash before XOR-ing, giving better
- *   avalanche for short strings.  djb2 shifts before adding, which can
- *   cluster similar keys.  std::hash is STL — forbidden by the spec.
  *
- * Viva Q: "What happens on hash collision?"
- *   Both entries sit in the same bucket's linked list.  get() walks the
- *   list comparing keys with strcmp until it finds an exact match.
- *   In the worst case (all keys collide) this degrades to O(N) — but with
- *   HM_CAPACITY = 256 and at most ~30 tables, the expected chain length
- *   is < 1, so O(1) is the practical reality.
  */
 #ifndef HASH_MAP_H
 #define HASH_MAP_H

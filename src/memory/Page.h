@@ -26,10 +26,6 @@
  *   with `new char[PAGE_SIZE]` and released in the destructor with
  *   `delete[] data`.  Never freed anywhere else.
  *
- * Viva Q: "Why PAGE_SIZE = 4096?"
- *   4 KB matches the virtual memory page size on x86/x64 Linux and
- *   Windows.  Aligning our DB pages to OS pages avoids TLB splits
- *   when doing raw file I/O with fread/fwrite.
  */
 #ifndef PAGE_H
 #define PAGE_H

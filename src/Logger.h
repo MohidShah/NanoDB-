@@ -13,11 +13,6 @@
  *  - Timestamps are embedded in every line for audit traceability.
  *  - fflush() after every write ensures log survives a crash mid-demo.
  *
- * Viva Q: "Why not std::ofstream?"
- *   std::ofstream is part of the C++ standard library but its underlying
- *   I/O buffer is arguably an STL construct.  Using C-style FILE* is
- *   unambiguously outside the STL container ban and is closer to the
- *   raw OS system-call layer we're targeting.
  */
 #ifndef LOGGER_H
 #define LOGGER_H

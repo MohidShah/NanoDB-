@@ -24,10 +24,6 @@
  *   buckets[pageId % HT_CAPACITY] → linked list of HashEntry{pageId, node*}
  *   Collision resolution: chaining (each bucket is a singly-linked list).
  *
- * Viva Q: "Why a doubly linked list instead of singly linked?"
- *   To remove an arbitrary node in O(1) we need to update BOTH its
- *   predecessor and successor.  A singly linked list can only traverse
- *   forward, so removal requires O(N) to find the predecessor.
  */
 #ifndef LRU_CACHE_H
 #define LRU_CACHE_H

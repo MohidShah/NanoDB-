@@ -31,10 +31,6 @@
  *   FloatField  → 8 bytes  (double)
  *   StringField → 256 bytes (null-padded char array)
  *
- * Viva Q: "Why fixed-width?"
- *   Fixed width lets us compute the byte offset of field[i] in a row as:
- *   sum of widths of fields 0..i-1.  No need to parse a length prefix.
- *   This is identical to how PostgreSQL stores fixed-width columns.
  */
 #ifndef FIELD_H
 #define FIELD_H

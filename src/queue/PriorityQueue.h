@@ -24,14 +24,7 @@
  *   peek()        → O(1)      — root is always the maximum
  *   size/isEmpty  → O(1)
  *
- * Viva Q: "Why a max-heap instead of a sorted array for priority scheduling?"
- *   insert() into a sorted array is O(N) (shift elements to maintain order).
- *   A max-heap keeps insert and extract both at O(log N), which is optimal
- *   for a dynamic priority queue where new queries arrive at any time.
  *
- * Viva Q: "What are the priority levels used in NanoDB?"
- *   PRIORITY_ADMIN = 10 (from Constants.h) — bypass normal queue.
- *   PRIORITY_USER  = 1  (from Constants.h) — standard execution order.
  */
 #ifndef PRIORITY_QUEUE_H
 #define PRIORITY_QUEUE_H

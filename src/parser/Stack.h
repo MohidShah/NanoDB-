@@ -4,10 +4,6 @@
  * No STL containers used. Template is allowed by the spec; only
  * std::stack / std::vector / std::map etc. are forbidden.
  *
- * Viva Q: "Why linked-list instead of array?"
- *   A linked-list stack has no fixed capacity — it grows with the heap.
- *   An array stack would need a MAX_DEPTH constant; for arbitrarily
- *   nested parentheses in SQL, dynamic allocation is safer.
  *
  * Complexity: push O(1), pop O(1), peek O(1), all via pointer manipulation.
  * Memory: each node heap-allocated; destructor frees all nodes.

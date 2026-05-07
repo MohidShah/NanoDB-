@@ -4,14 +4,7 @@
  * Takes the output of ShuntingYard and a Row* + Schema*, and returns true/false
  * for use as a WHERE-clause filter.
  *
- * Viva Q: "How does the evaluator resolve a column name like 'l_quantity'?"
- *   1. It calls schema->indexOf("l_quantity") to get the column index (O(N_cols)).
- *   2. It calls row->fields[colIndex]->toDouble() or reads the Field* directly.
- *   3. It pushes the field's value as an EvalValue onto the evaluation stack.
  *
- * Viva Q: "How are mixed INT/FLOAT comparisons handled?"
- *   Both operands are widened to double before comparison.  This mirrors SQL
- *   standard numeric promotion rules and avoids integer truncation errors.
  *
  * Evaluation stack entry (EvalValue):
  *   A tagged union holding one of: INT, FLOAT, STRING, or BOOL.

@@ -15,10 +15,6 @@
  * The BufferPool owns exactly one LRUCache instance.
  * It does NOT own individual Page objects — the LRUCache does.
  *
- * Viva Q: "What is the difference between the Buffer Pool and the LRU Cache?"
- *   LRUCache is the policy engine (eviction, hash lookup, DLL ordering).
- *   BufferPool is the interface layer (page numbering, pin tracking, disk
- *   loading).  Separating them respects the Single Responsibility Principle.
  */
 #ifndef BUFFER_POOL_H
 #define BUFFER_POOL_H

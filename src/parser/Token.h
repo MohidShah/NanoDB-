@@ -1,9 +1,6 @@
 /*
  * Token.h  —  SQL token definitions for NanoDB parser.
  *
- * Viva Q: "How does the parser distinguish column names from keywords?"
- *   After reading an identifier, Tokenizer::classify() does a case-insensitive
- *   strcmp against every keyword string.  If no match, it stays TOK_IDENT.
  */
 #ifndef TOKEN_H
 #define TOKEN_H

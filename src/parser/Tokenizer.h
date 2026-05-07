@@ -6,11 +6,6 @@
  *   SELECT, INSERT INTO, CREATE TABLE, DROP TABLE, LIST TABLES,
  *   WHERE clauses with comparisons, AND/OR/NOT, parentheses.
  *
- * Viva Q: "What is the difference between a token and a lexeme?"
- *   A lexeme is the raw character sequence from the source (e.g. "SELECT").
- *   A token is the classified pair (TokenType::TOK_SELECT, lexeme="SELECT").
- *   The tokenizer performs lexical analysis — turning bytes into tokens —
- *   before the parser gives them grammatical meaning.
  */
 #ifndef TOKENIZER_H
 #define TOKENIZER_H

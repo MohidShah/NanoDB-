@@ -8,9 +8,6 @@
  *   freeFields()   → delete each Field*, then delete[] cols  (called in destructor)
  *   clone()        → Field::clone() performs a virtual deep-copy
  *
- * Viva Q: "Why clone() instead of just copying the pointer?"
- *   Two Rows sharing the same Field* pointer would cause a double-free in
- *   their destructors.  clone() ensures each Row owns its own Field objects.
  */
 #include "Row.h"
 #include <string.h>  // C header (avoids Clangd false positives on MinGW)  // memcpy
