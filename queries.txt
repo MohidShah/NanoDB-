@@ -1,0 +1,88 @@
+-- queries.txt
+-- NanoDB workload: 50 SQL-like statements covering all rubric requirements.
+-- Lines starting with '--' or '#' are ignored by the engine.
+-- =========================================================================
+
+-- ── DDL (Create / List) ──────────────────────────────────────────────────────
+CREATE TABLE test_table (id INT, score FLOAT, name STRING)
+LIST TABLES
+
+-- ── Simple INSERTs ───────────────────────────────────────────────────────────
+INSERT INTO test_table VALUES (1, 95.5, 'Alice')
+INSERT INTO test_table VALUES (2, 82.0, 'Bob')
+INSERT INTO test_table VALUES (3, 74.3, 'Carol')
+INSERT INTO test_table VALUES (4, 91.0, 'Dave')
+INSERT INTO test_table VALUES (5, 55.0, 'Eve')
+
+-- ── SELECT * (no filter) ─────────────────────────────────────────────────────
+SELECT * FROM test_table
+
+-- ── SELECT WHERE single condition (Test Case A - postfix logging) ────────────
+SELECT * FROM test_table WHERE score > 80.0
+SELECT * FROM test_table WHERE id = 3
+SELECT * FROM test_table WHERE name = 'Alice'
+
+-- ── SELECT WHERE compound AND (Test Case A) ─────────────────────────────────
+SELECT * FROM test_table WHERE score > 70.0 AND id < 4
+SELECT * FROM test_table WHERE score > 80.0 AND score < 95.0
+
+-- ── SELECT WHERE compound OR ─────────────────────────────────────────────────
+SELECT * FROM customer WHERE c_acctbal > 5000.0 OR c_nationkey = 0
+
+-- ── SELECT WHERE nested parens (Test Case F - arithmetic) ───────────────────
+SELECT * FROM test_table WHERE (score + 5.0) > 90.0
+
+-- ── Admin UPDATE queries (Test Case E - priority bypass) ─────────────────────
+UPDATE test_table SET score=99.0 WHERE id = 1
+UPDATE customer SET c_acctbal=9999.99 WHERE c_custkey = 1
+UPDATE orders SET o_orderstatus='F' WHERE o_orderkey = 1
+
+-- ── SELECT to verify UPDATEs applied ─────────────────────────────────────────
+SELECT * FROM test_table WHERE id = 1
+SELECT * FROM customer WHERE c_custkey = 1
+
+-- ── DELETE ───────────────────────────────────────────────────────────────────
+DELETE FROM test_table WHERE id = 5
+SELECT * FROM test_table
+
+-- ── AVL Index queries (Test Case B - equality on INT key) ────────────────────
+SELECT * FROM customer WHERE c_custkey = 42
+SELECT * FROM customer WHERE c_custkey = 100
+SELECT * FROM customer WHERE c_custkey = 999
+SELECT * FROM orders WHERE o_orderkey = 15
+SELECT * FROM orders WHERE o_orderkey = 1000
+
+-- ── Range-style WHERE (sequential scan fallback) ─────────────────────────────
+SELECT * FROM customer WHERE c_acctbal > 9000.0
+SELECT * FROM customer WHERE c_nationkey = 5
+SELECT * FROM orders WHERE o_totalprice > 450000.0
+SELECT * FROM lineitem WHERE l_discount > 0.09
+
+-- ── Arithmetic expression in WHERE (Test Case F) ─────────────────────────────
+SELECT * FROM test_table WHERE score * 2 > 160.0
+SELECT * FROM lineitem WHERE l_extendedprice * l_discount > 5000.0
+
+-- ── Multi-table JOIN (Test Case C - MST join order) ─────────────────────────
+SELECT * FROM customer, orders ON customer.c_custkey=orders.o_custkey
+SELECT * FROM orders, lineitem ON orders.o_orderkey=lineitem.l_orderkey
+SELECT * FROM customer, orders, lineitem ON customer.c_custkey=orders.o_custkey AND orders.o_orderkey=lineitem.l_orderkey
+
+-- ── More SELECT with compound conditions ─────────────────────────────────────
+SELECT * FROM customer WHERE c_mktsegment = 'BUILDING' AND c_acctbal > 1000.0
+SELECT * FROM orders WHERE o_orderstatus = 'O' AND o_totalprice > 200000.0
+SELECT * FROM lineitem WHERE l_returnflag = 'R' AND l_discount > 0.05
+SELECT * FROM customer WHERE c_nationkey = 10 OR c_nationkey = 15
+SELECT * FROM orders WHERE o_shippriority = 0 AND o_orderstatus = 'F'
+
+-- ── Additional INSERTs to stress buffer pool (Test Case D) ─────────────────
+INSERT INTO customer VALUES (99001, 'StressTest#1', 'addr1', 1, '11-111-111-1111', 1234.56, 'BUILDING', 'comment1')
+INSERT INTO customer VALUES (99002, 'StressTest#2', 'addr2', 2, '22-222-222-2222', 2345.67, 'HOUSEHOLD', 'comment2')
+INSERT INTO customer VALUES (99003, 'StressTest#3', 'addr3', 3, '33-333-333-3333', 3456.78, 'AUTOMOBILE', 'comment3')
+
+-- ── Verify stress inserts ────────────────────────────────────────────────────
+SELECT * FROM customer WHERE c_custkey = 99001
+SELECT * FROM customer WHERE c_custkey = 99002
+
+-- ── DROP TABLE ───────────────────────────────────────────────────────────────
+DROP TABLE test_table
+LIST TABLES

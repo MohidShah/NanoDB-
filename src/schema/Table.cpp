@@ -82,6 +82,17 @@ bool Table::load() {
     char line[64];
     fgets(line, sizeof(line), f); totalRows = atoi(line);
     fgets(line, sizeof(line), f); numPages  = atoi(line);
+
+    // Read schema
+    fgets(line, sizeof(line), f);
+    int numCols = atoi(line);
+    for (int i = 0; i < numCols; i++) {
+        char colName[64];
+        int typeInt = 0;
+        fscanf(f, "%63s %d\n", colName, &typeInt);
+        schema->addColumn(colName, static_cast<Field::Type>(typeInt));
+    }
+
     // Read each page ID
     for (int i = 0; i < numPages; i++) {
         fgets(line, sizeof(line), f);
@@ -104,6 +115,12 @@ void Table::save() {
     }
     fprintf(f, "%d\n", totalRows);
     fprintf(f, "%d\n", numPages);
+
+    fprintf(f, "%d\n", schema->numCols);
+    for (int i = 0; i < schema->numCols; i++) {
+        fprintf(f, "%s %d\n", schema->columns[i].name, (int)schema->columns[i].type);
+    }
+
     for (int i = 0; i < numPages; i++) {
         fprintf(f, "%d\n", pageDirectory[i]);
     }

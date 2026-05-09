@@ -1,8 +1,8 @@
 CXX      = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -Wpedantic -Isrc
-BUILD    = build
+CXXFLAGS = -std=c++17 -Wall -Wextra -Isrc
+BUILD    = build_out
 
-# ── Collect all .cpp source files ─────────────────────────────────────────────
+# ── All shared .cpp files ──────────────────────────────────────────────────────
 SRCS = src/Logger.cpp \
        src/memory/Page.cpp \
        src/memory/LRUCache.cpp \
@@ -23,34 +23,28 @@ SRCS = src/Logger.cpp \
        src/optimizer/KruskalMST.cpp \
        src/engine/QueryExecutor.cpp
 
-OBJS         = $(SRCS:src/%.cpp=$(BUILD)/%.o)
-MAIN_OBJ     = $(BUILD)/main.o
-RUNNER_OBJ   = $(BUILD)/test_runner_main.o
+.PHONY: all clean data
 
-.PHONY: all clean
+all: $(BUILD) nanodb.exe test_runner.exe
 
-all: nanodb test_runner
+$(BUILD):
+	if not exist $(BUILD) mkdir $(BUILD)
 
 # ── Main executable ────────────────────────────────────────────────────────────
-nanodb: $(OBJS) $(MAIN_OBJ)
+nanodb.exe: $(SRCS) src/main.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 # ── Test runner executable ─────────────────────────────────────────────────────
-test_runner: $(OBJS) $(RUNNER_OBJ)
+test_runner.exe: $(SRCS) test_runner.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-# ── Compile shared sources ─────────────────────────────────────────────────────
-$(BUILD)/%.o: src/%.cpp
-	@mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(MAIN_OBJ): src/main.cpp
-	@mkdir -p $(BUILD)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(RUNNER_OBJ): test_runner.cpp
-	@mkdir -p $(BUILD)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+# ── Generate TPC-H data ────────────────────────────────────────────────────────
+data:
+	python data/generate_tpch.py
 
 clean:
-	rm -rf $(BUILD) nanodb test_runner nanodb_execution.log
+	if exist nanodb.exe del nanodb.exe
+	if exist test_runner.exe del test_runner.exe
+	if exist nanodb_execution.log del nanodb_execution.log
+	if exist nanodb_test.log del nanodb_test.log
+	if exist nanodb.catalog del nanodb.catalog

@@ -1,35 +1,22 @@
-# ── Compiled binaries ──────────────────────────────────────────────────────────
+# Compiled executables
 *.exe
-*.out
 *.o
-*.obj
-*.a
-*.lib
-*.dll
-*.so
-*.dylib
 
-# ── Build directories ──────────────────────────────────────────────────────────
+# Log files
+*.log
+
+# Database files
+*.dbf
+*.meta
+*.catalog
+
+# Build directories
 build/
-cmake-build-debug/
-cmake-build-release/
-CMakeFiles/
-CMakeCache.txt
-*.cmake
-Makefile.win
+build_out/
 
-# ── TPC-H raw data (large files — do NOT push to GitHub) ──────────────────────
+# Python cache
+__pycache__/
+*.pyc
+
+# Ignore large synthetic datasets, but keep the generator script
 data/*.tbl
-data/*.csv
-
-# ── NanoDB runtime files ───────────────────────────────────────────────────────
-*.dbf          # serialized page files
-nanodb_execution.log
-
-# ── Editor / OS noise ─────────────────────────────────────────────────────────
-.vscode/
-.idea/
-*.suo
-*.user
-.DS_Store
-Thumbs.db
