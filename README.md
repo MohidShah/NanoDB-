@@ -1,8 +1,8 @@
 # NanoDB — Mini Relational Database Engine
 
 A from-scratch relational database engine written in C++ (no STL containers).
-Built for the graduate-level *Applied Programming* course.
 
+NanoDB is a fully functional database architecture built to demonstrate deep understanding of core data structures, manual memory management, and file persistence. It implements its own custom buffer pool, system catalog, B-tree-style AVL indexes, parsing engine, and an MST-based query optimizer. The engine is capable of processing TPC-H style benchmark workloads (upwards of 100,000 synthesized records) entirely through manual, low-level heap allocations while adhering strictly to zero-STL constraints.
 ## GitHub Repository
 > **Link:** [https://github.com/MohidShah/NanoDB-](https://github.com/MohidShah/NanoDB-)
 
