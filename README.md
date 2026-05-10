@@ -1,6 +1,6 @@
 # NanoDB — Mini Relational Database Engine
 
-**Semester Research Project: Systems Architecture & Query Optimizer**
+**Semester Project: Systems Architecture & Query Optimizer**
 
 NanoDB is a fully functional relational database engine written entirely from scratch in C++. It was built under strict **Zero-STL (Standard Template Library) constraints** to demonstrate a deep, low-level understanding of core data structures, manual memory management (`new`/`delete`), and persistent disk I/O operations.
 
@@ -111,23 +111,25 @@ valgrind --leak-check=full --show-leak-kinds=all ./nanodb
 
 ---
 
-## Project Structure and File Descriptions
+## Project Structure
 
-Below is a breakdown of the core directories and files to help the evaluator understand how the Zero-STL constraints were handled:
-
-### `src/` (Core Database Engine)
-The entire engine is manually coded in C++ using bare pointers and raw memory arrays.
-- **`memory/`**: Contains the **Buffer Pool** and **LRU Cache**. This layer acts as the bridge between the disk and RAM. `LRUCache.cpp` implements a custom Doubly-Linked-List to track page usage and evict old pages in $O(1)$ time to prevent memory overflow.
-- **`schema/`**: Contains the type system (`Field`, `Row`) and **Table** logic. Because C++ arrays need uniform types, `Row.cpp` uses polymorphism to store abstract `Field*` pointers, allowing the engine to serialize integers, floats, and strings into exact byte widths (e.g., 4096-byte pages) via `Table.cpp`.
-- **`catalog/`**: Contains the **System Catalog** and custom **Hash Map**. `HashMap.cpp` is a from-scratch FNV-1a Hash Map with separate chaining used to instantly look up which `.dbf` file belongs to which table name in $O(1)$ time.
-- **`parser/`**: The SQL parsing engine. `ShuntingYard.cpp` implements Edsger Dijkstra's Shunting-Yard algorithm using custom Stacks to parse complex infix queries (e.g., `a > 5 AND b < 3`) into Postfix notation. `ExprEvaluator.cpp` then executes the Postfix trees against the rows.
-- **`index/`**: Contains the **AVL Tree**. `AVLTree.cpp` is a custom self-balancing binary search tree. By tracking subtree heights and performing mathematical pointer rotations, it guarantees $O(\log N)$ lookup speeds for primary keys, bypassing slow sequential array scans.
-- **`optimizer/`**: The Join Optimizer. `Graph.cpp` builds an adjacency matrix of tables, and `KruskalMST.cpp` utilizes a Union-Find disjoint set to calculate the cheapest, minimum-spanning-tree path for multi-table SQL joins in $O(E \log E)$ time.
-- **`queue/`**: The Job Scheduler. `PriorityQueue.cpp` implements a custom Array-based Binary Max-Heap. This allows high-priority Admin `UPDATE` transactions to instantly jump to the front of the line ahead of background User `SELECT` queries.
-- **`engine/`**: The **Query Executor**. `QueryExecutor.cpp` is the central brain that glues the Parser, Catalog, and Optimizer together to execute the CRUD operations.
-
-### Root Files & Data
-- **`data/generate_tpch.py`**: A synthetic data generator built to synthesize 100,000 exact TPC-H compliant records to stress-test the C++ engine.
-- **`queries.txt`**: The comprehensive Workload File containing 50 diverse SQL-like queries ranging from basic inserts to massive nested-logic joins.
-- **`nanodb.cpp`**: The primary executable entry point that boots the database, loads the queries, and logs the execution.
-- **`test_runner.cpp`**: An automated evaluation script that sequentially runs the 7 specific test cases (A through G) required by the project rubric to prove algorithmic complexity and memory stability.
+```
+NanoDB/
+├── src/
+│   ├── Logger.h / Logger.cpp
+│   ├── memory/        # Buffer Pool, Page, LRU Cache
+│   ├── schema/        # Field, Row, Schema, Table
+│   ├── catalog/       # HashMap, SystemCatalog
+│   ├── parser/        # Tokenizer, Stack, ShuntingYard, ExprEvaluator
+│   ├── queue/         # QueryJob, PriorityQueue
+│   ├── index/         # AVLNode, AVLTree
+│   ├── optimizer/     # UnionFind, Graph, KruskalMST
+│   ├── engine/        # QueryExecutor
+│   └── main.cpp
+├── data/
+│   └── generate_tpch.py
+├── queries.txt
+├── test_runner.cpp
+├── CMakeLists.txt
+└── Makefile
+```
