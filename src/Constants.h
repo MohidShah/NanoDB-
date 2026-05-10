@@ -17,7 +17,7 @@ static const int PAGE_SIZE      = 4096;   // bytes per page (matches OS virtual 
 static const int PAGE_HEADER_SZ = 8;      // bytes reserved for page header (id + rowCount)
 
 // ── Table limits ──────────────────────────────────────────────────────────────
-static const int MAX_TABLE_PAGES = 4096;  // max pages per table
+static const int MAX_TABLE_PAGES = 32768; // max pages per table
 static const int MAX_COLS        = 32;    // max columns per table
 static const int MAX_TABLE_NAME  = 64;    // max length of a table name
 static const int MAX_COL_NAME    = 64;    // max length of a column name
